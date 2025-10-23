@@ -1,0 +1,32 @@
+{
+  "name": "agrifarm-weather-crop-management",
+  "version": "1.0.0",
+  "description": "A comprehensive web application for weather-based crop management with soil analysis, irrigation scheduling, and fertilizer recommendations",
+  "main": "launcher.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000"
+  },
+  "keywords": [
+    "agriculture",
+    "crop-management",
+    "weather",
+    "soil-analysis",
+    "irrigation",
+    "fertilizer",
+    "farming",
+    "smart-agriculture"
+  ],
+  "author": "AgriFarm Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/agrifarm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/agrifarm/issues"
+  },
+  "homepage": "https://github.com/your-username/agrifarm#readme"
+}

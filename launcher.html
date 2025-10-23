@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriFarm - Choose Your Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .launcher-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .platform-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .platform-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .platform-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .platform-description {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .platform-features {
+            list-style: none;
+            text-align: left;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .platform-features li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .platform-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4a7c59;
+            font-weight: bold;
+        }
+        
+        .launch-btn {
+            background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .install-instructions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .install-instructions h3 {
+            margin-bottom: 15px;
+            color: #4a7c59;
+        }
+        
+        .install-steps {
+            list-style: none;
+        }
+        
+        .install-steps li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .install-steps li:before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #4a7c59;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .install-steps {
+            counter-reset: step-counter;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-online {
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-offline {
+            background: #f44336;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .platform-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .platform-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher-container">
+        <div class="logo">🌾</div>
+        <h1 class="title">AgriFarm</h1>
+        <p class="subtitle">Smart Agriculture Management Platform</p>
+        
+        <div class="platform-options">
+            <!-- Web Application -->
+            <div class="platform-card" onclick="launchWebApp()">
+                <div class="platform-icon">🌐</div>
+                <h3 class="platform-title">Web Application</h3>
+                <p class="platform-description">Access AgriFarm in your browser</p>
+                <ul class="platform-features">
+                    <li>Full browser experience</li>
+                    <li>All features available</li>
+                    <li>Works on any device</li>
+                    <li>No installation required</li>
+                </ul>
+                <a href="index.html" class="launch-btn">Launch Web App</a>
+            </div>
+            
+            <!-- Mobile Application -->
+            <div class="platform-card" onclick="launchMobileApp()">
+                <div class="platform-icon">📱</div>
+                <h3 class="platform-title">Mobile Application</h3>
+                <p class="platform-description">Install AgriFarm as a native app</p>
+                <ul class="platform-features">
+                    <li>Native app experience</li>
+                    <li>Offline functionality</li>
+                    <li>Home screen icon</li>
+                    <li>Push notifications</li>
+                </ul>
+                <a href="index.html" class="launch-btn">Install Mobile App</a>
+            </div>
+        </div>
+        
+        <div class="install-instructions">
+            <h3>📱 How to Install Mobile App</h3>
+            <ol class="install-steps">
+                <li><strong>Android:</strong> Open in Chrome → Tap "Add to Home Screen"</li>
+                <li><strong>iPhone:</strong> Open in Safari → Share → "Add to Home Screen"</li>
+                <li><strong>Desktop:</strong> Look for install button (📱) in bottom-right corner</li>
+                <li><strong>Enjoy:</strong> Use AgriFarm like a native app!</li>
+            </ol>
+        </div>
+        
+        <div style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
+            <p><span class="status-indicator status-online"></span>Web Application: <strong>Online</strong></p>
+            <p><span class="status-indicator status-online"></span>Mobile Application: <strong>Ready to Install</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        function launchWebApp() {
+            window.location.href = 'index.html';
+        }
+        
+        function launchMobileApp() {
+            // Redirect to main app where PWA installation will be available
+            window.location.href = 'index.html';
+        }
+        
+        // Check if running as PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.querySelector('.platform-card:last-child .platform-description').textContent = 'Running as installed app';
+            document.querySelector('.platform-card:last-child .launch-btn').textContent = 'Already Installed';
+            document.querySelector('.platform-card:last-child .launch-btn').style.background = '#4CAF50';
+        }
+        
+        // Show install prompt if available
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show mobile app install option
+            const mobileCard = document.querySelector('.platform-card:last-child');
+            const installBtn = mobileCard.querySelector('.launch-btn');
+            installBtn.textContent = 'Install Now';
+            installBtn.onclick = async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`PWA install: ${outcome}`);
+                    deferredPrompt = null;
+                }
+            };
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriFarm - Login</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Login to AgriFarm - Smart Agriculture Management">
+    <meta name="theme-color" content="#4a7c59">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AgriFarm">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo i {
+            font-size: 3rem;
+            color: #4a7c59;
+        }
+        
+        .login-logo h1 {
+            font-size: 2.5rem;
+            color: #2c5530;
+            font-weight: 700;
+        }
+        
+        .login-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        
+        .tab-button.active {
+            background: #4a7c59;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a7c59;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 124, 89, 0.3);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .otp-container {
+            display: none;
+        }
+        
+        .otp-container.active {
+            display: block;
+        }
+        
+        .otp-inputs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .otp-input:focus {
+            outline: none;
+            border-color: #4a7c59;
+        }
+        
+        .resend-otp {
+            color: #4a7c59;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        .success-message {
+            color: #28a745;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4a7c59;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .login-logo h1 {
+                font-size: 2rem;
+            }
+            
+            .otp-input {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Custom Translation System - Styles are in translations.js */
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-seedling"></i>
+                <h1>AgriFarm</h1>
+            </div>
+            
+            <div class="login-tabs">
+                <button class="tab-button active" onclick="showTab('login')" data-translate="login_tab">Login</button>
+                <button class="tab-button" onclick="showTab('register')" data-translate="register_tab">Register</button>
+            </div>
+            
+            <!-- Login Tab -->
+            <div id="loginTab" class="tab-content active">
+                <h2 style="color: #2c5530; margin-bottom: 2rem;" data-translate="welcome_back">Welcome Back!</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginName" data-translate="full_name">Full Name</label>
+                        <input type="text" id="loginName" placeholder="Enter your full name" data-translate="enter_full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword" data-translate="password">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" data-translate="enter_password" required>
+                    </div>
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        <span id="loginBtnText" data-translate="login">Login</span>
+                    </button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+            </div>
+            
+            <!-- Register Tab -->
+            <div id="registerTab" class="tab-content">
+                <h2 style="color: #2c5530; margin-bottom: 2rem;" data-translate="join_agrifarm">Join AgriFarm</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName" data-translate="full_name">Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name" data-translate="enter_full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerMobile" data-translate="mobile_number">Mobile Number</label>
+                        <input type="tel" id="registerMobile" placeholder="Enter your mobile number" data-translate="enter_mobile" required>
+                    </div>
+                    <button type="submit" class="btn-login" id="registerBtn">
+                        <span id="registerBtnText" data-translate="send_otp">Send OTP</span>
+                    </button>
+                    <div id="registerError" class="error-message"></div>
+                </form>
+                
+                <!-- OTP Verification -->
+                <div id="otpContainer" class="otp-container">
+                    <h3 style="color: #2c5530; margin-bottom: 1rem;" data-translate="verify_otp_title">Verify OTP</h3>
+                    <p style="color: #666; margin-bottom: 1rem;" data-translate="enter_6_digit_code">Enter the 6-digit code sent to your mobile</p>
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-input" maxlength="1" data-index="0">
+                        <input type="text" class="otp-input" maxlength="1" data-index="1">
+                        <input type="text" class="otp-input" maxlength="1" data-index="2">
+                        <input type="text" class="otp-input" maxlength="1" data-index="3">
+                        <input type="text" class="otp-input" maxlength="1" data-index="4">
+                        <input type="text" class="otp-input" maxlength="1" data-index="5">
+                    </div>
+                    <button type="button" class="btn-login" id="verifyOtpBtn" style="margin-top: 1rem;">
+                        <span id="verifyOtpBtnText" data-translate="verify_otp_title">Verify OTP</span>
+                    </button>
+                    <div class="resend-otp" onclick="resendOTP()" data-translate="resend_otp">Resend OTP</div>
+                    <div id="otpError" class="error-message"></div>
+                </div>
+                
+                <!-- Password Setup -->
+                <div id="passwordContainer" class="otp-container">
+                    <h3 style="color: #2c5530; margin-bottom: 1rem;" data-translate="set_password_title">Set Password</h3>
+                    <p style="color: #666; margin-bottom: 1rem;" data-translate="create_secure_password">Create a secure password for your account</p>
+                    <div class="form-group">
+                        <label for="newPassword" data-translate="password">Password</label>
+                        <input type="password" id="newPassword" placeholder="Enter your password" data-translate="enter_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" data-translate="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" data-translate="confirm_password" required>
+                    </div>
+                    <button type="button" class="btn-login" id="setPasswordBtn">
+                        <span id="setPasswordBtnText" data-translate="create_account">Create Account</span>
+                    </button>
+                    <div id="passwordError" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Translation System -->
+    <script src="translations.js"></script>
+    
+    <script src="auth.js"></script>
+</body>
+</html>

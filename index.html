@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriFarm - Weather-Based Crop Management</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Smart crop management with weather analysis, soil testing, and irrigation scheduling">
+    <meta name="theme-color" content="#4a7c59">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AgriFarm">
+    <meta name="msapplication-TileColor" content="#2c5530">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>AgriFarm</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#dashboard" class="nav-link active" data-translate="dashboard">Dashboard</a>
+                    <a href="#soil-analysis" class="nav-link" data-translate="soil_analysis">Soil Analysis</a>
+                    <a href="#weather" class="nav-link" data-translate="weather">Weather</a>
+                    <a href="#irrigation" class="nav-link" data-translate="irrigation">Irrigation</a>
+                    <a href="#fertilizer" class="nav-link" data-translate="fertilizer">Fertilizer</a>
+                    <button class="btn-logout" onclick="logout()" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2 data-translate="smart_crop_management">Smart Crop Management Dashboard</h2>
+                    <p data-translate="optimize_farming">Optimize your farming with AI-powered weather and soil analysis</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Weather Card -->
+                    <div class="card weather-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-cloud-sun"></i> <span data-translate="current_weather">Current Weather</span></h3>
+                            <div class="location-controls">
+                                <span class="location" id="location" data-translate="loading">Loading...</span>
+                                <button class="btn-location" onclick="showLocationModal()" title="Change Location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="weather-info">
+                            <div class="temperature">
+                                <span class="temp-value" id="temperature">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                            <div class="weather-details">
+                                <div class="detail">
+                                    <i class="fas fa-tint"></i>
+                                    <span><span data-translate="humidity_label">Humidity</span>: <span id="humidity">--</span>%</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-wind"></i>
+                                    <span><span data-translate="wind_label">Wind</span>: <span id="wind-speed">--</span> km/h</span>
+                                </div>
+                                <div class="detail">
+                                    <i class="fas fa-cloud-rain"></i>
+                                    <span><span data-translate="rain_label">Rain</span>: <span id="rainfall">--</span> mm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soil Analysis Card -->
+                    <div class="card soil-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-seedling"></i> <span data-translate="soil_analysis">Soil Analysis</span></h3>
+                        </div>
+                        <div class="soil-form">
+                            <div class="form-group">
+                                <label for="soil-type" data-translate="soil_type">Soil Type</label>
+                                <select id="soil-type">
+                                    <option value="" data-translate="select_soil_type">Select Soil Type</option>
+                                    <option value="clay" data-translate="clay">Clay</option>
+                                    <option value="sandy" data-translate="sandy">Sandy</option>
+                                    <option value="loamy" data-translate="loamy">Loamy</option>
+                                    <option value="silty" data-translate="silty">Silty</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ph-level" data-translate="ph_level">pH Level</label>
+                                <input type="number" id="ph-level" placeholder="6.5" step="0.1" min="0" max="14">
+                            </div>
+                            <div class="form-group">
+                                <label for="nutrients" data-translate="nutrient_level">Nutrient Level</label>
+                                <select id="nutrients">
+                                    <option value="" data-translate="select_level">Select Level</option>
+                                    <option value="low" data-translate="low">Low</option>
+                                    <option value="medium" data-translate="medium">Medium</option>
+                                    <option value="high" data-translate="high">High</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="analyzeSoil()" data-translate="analyze_soil">Analyze Soil</button>
+                        </div>
+                    </div>
+
+                    <!-- Crop Recommendation Card -->
+                    <div class="card crop-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-leaf"></i> <span data-translate="recommended_crops">Recommended Crops</span></h3>
+                        </div>
+                        <div class="crop-recommendations" id="crop-recommendations">
+                            <p class="placeholder" data-translate="complete_soil_analysis">Complete soil analysis to get crop recommendations</p>
+                        </div>
+                    </div>
+
+                    <!-- Irrigation Schedule Card -->
+                    <div class="card irrigation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tint"></i> <span data-translate="irrigation_schedule">Irrigation Schedule</span></h3>
+                        </div>
+                        <div class="irrigation-info" id="irrigation-info">
+                            <div class="irrigation-status">
+                                <i class="fas fa-check-circle"></i>
+                                <span data-translate="smart_irrigation">Smart irrigation monitoring active</span>
+                            </div>
+                            <div class="next-watering" id="next-watering">
+                                <p><span data-translate="next_watering">Next watering</span>: <span id="watering-time" data-translate="calculating">Calculating...</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fertilizer Recommendation Card -->
+                    <div class="card fertilizer-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-flask"></i> <span data-translate="fertilizer_recommendations">Fertilizer Recommendations</span></h3>
+                        </div>
+                        <div class="fertilizer-info" id="fertilizer-info">
+                            <p class="placeholder" data-translate="complete_soil_analysis">Complete soil analysis for fertilizer recommendations</p>
+                        </div>
+                    </div>
+
+                    <!-- Nutrient Deficiency Card -->
+                    <div class="card nutrient-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> <span data-translate="nutrient_deficiency">Nutrient Deficiency Detection</span></h3>
+                        </div>
+                        <div class="nutrient-info" id="nutrient-info">
+                            <p class="placeholder" data-translate="complete_soil_analysis">Monitor crop health for nutrient deficiency alerts</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Soil Analysis Section -->
+            <section id="soil-analysis" class="section">
+                <div class="section-header">
+                    <h2 data-translate="comprehensive_soil_analysis">Comprehensive Soil Analysis</h2>
+                    <p data-translate="detailed_soil_testing">Detailed soil testing and crop suitability analysis</p>
+                </div>
+                <div class="analysis-container">
+                    <div class="analysis-form">
+                        <h3 data-translate="soil_test_parameters">Soil Test Parameters</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="detailed-soil-type" data-translate="soil_type">Soil Type</label>
+                                <select id="detailed-soil-type">
+                                    <option value="" data-translate="select_soil_type">Select Soil Type</option>
+                                    <option value="clay" data-translate="clay_soil">Clay Soil</option>
+                                    <option value="sandy" data-translate="sandy_soil">Sandy Soil</option>
+                                    <option value="loamy" data-translate="loamy_soil">Loamy Soil</option>
+                                    <option value="silty" data-translate="silty_soil">Silty Soil</option>
+                                    <option value="peaty" data-translate="peaty_soil">Peaty Soil</option>
+                                    <option value="chalky" data-translate="chalky_soil">Chalky Soil</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="detailed-ph" data-translate="ph_level">pH Level</label>
+                                <input type="number" id="detailed-ph" placeholder="6.5" step="0.1" min="0" max="14">
+                            </div>
+                            <div class="form-group">
+                                <label for="nitrogen" data-translate="nitrogen_n">Nitrogen (N)</label>
+                                <input type="number" id="nitrogen" placeholder="50" step="1" min="0" max="200">
+                            </div>
+                            <div class="form-group">
+                                <label for="phosphorus" data-translate="phosphorus_p">Phosphorus (P)</label>
+                                <input type="number" id="phosphorus" placeholder="30" step="1" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="potassium" data-translate="potassium_k">Potassium (K)</label>
+                                <input type="number" id="potassium" placeholder="40" step="1" min="0" max="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="organic-matter" data-translate="organic_matter">Organic Matter (%)</label>
+                                <input type="number" id="organic-matter" placeholder="3.5" step="0.1" min="0" max="10">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="detailedSoilAnalysis()" data-translate="run_detailed_analysis">Run Detailed Analysis</button>
+                    </div>
+                    <div class="analysis-results" id="detailed-results">
+                        <h3 data-translate="analysis_results">Analysis Results</h3>
+                        <div class="results-content">
+                            <p class="placeholder" data-translate="enter_soil_parameters">Enter soil parameters to get detailed analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weather Section -->
+            <section id="weather" class="section">
+                <div class="section-header">
+                    <h2 data-translate="weather_monitoring">Weather Monitoring & Forecast</h2>
+                    <p data-translate="real_time_weather">Real-time weather data and 7-day forecast for optimal farming decisions</p>
+                </div>
+                <div class="weather-container">
+                    <div class="current-weather">
+                        <h3 data-translate="current_conditions">Current Conditions</h3>
+                        <div class="weather-dashboard" id="weather-dashboard">
+                            <!-- Weather data will be populated here -->
+                        </div>
+                    </div>
+                    <div class="forecast">
+                        <h3 data-translate="seven_day_forecast">7-Day Forecast</h3>
+                        <div class="forecast-grid" id="forecast-grid">
+                            <!-- Forecast data will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Irrigation Section -->
+            <section id="irrigation" class="section">
+                <div class="section-header">
+                    <h2 data-translate="smart_irrigation_management">Smart Irrigation Management</h2>
+                    <p data-translate="automated_watering">Automated watering schedule based on weather conditions and soil moisture</p>
+                </div>
+                <div class="irrigation-container">
+                    <div class="irrigation-controls">
+                        <h3 data-translate="irrigation_settings">Irrigation Settings</h3>
+                        <div class="control-group">
+                            <label for="crop-type-irrigation" data-translate="crop_type">Crop Type</label>
+                            <select id="crop-type-irrigation">
+                                <option value="" data-translate="select_crop">Select Crop</option>
+                                <option value="tomato" data-translate="tomato">Tomato</option>
+                                <option value="corn" data-translate="corn">Corn</option>
+                                <option value="wheat" data-translate="wheat">Wheat</option>
+                                <option value="rice" data-translate="rice">Rice</option>
+                                <option value="potato" data-translate="potato">Potato</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="growth-stage" data-translate="growth_stage">Growth Stage</label>
+                            <select id="growth-stage">
+                                <option value="" data-translate="select_stage">Select Stage</option>
+                                <option value="seedling" data-translate="seedling">Seedling</option>
+                                <option value="vegetative" data-translate="vegetative">Vegetative</option>
+                                <option value="flowering" data-translate="flowering">Flowering</option>
+                                <option value="fruiting" data-translate="fruiting">Fruiting</option>
+                                <option value="maturity" data-translate="maturity">Maturity</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="calculateIrrigation()" data-translate="calculate_irrigation">Calculate Irrigation Schedule</button>
+                    </div>
+                    <div class="irrigation-schedule" id="irrigation-schedule">
+                        <h3 data-translate="recommended_irrigation">Recommended Irrigation Schedule</h3>
+                        <div class="schedule-content">
+                            <p class="placeholder" data-translate="select_crop_stage">Select crop type and growth stage to get irrigation recommendations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fertilizer Section -->
+            <section id="fertilizer" class="section">
+                <div class="section-header">
+                    <h2 data-translate="fertilizer_management">Fertilizer Management</h2>
+                    <p data-translate="optimized_fertilizer">Optimized fertilizer recommendations based on soil analysis and crop requirements</p>
+                </div>
+                <div class="fertilizer-container">
+                    <div class="fertilizer-form">
+                        <h3 data-translate="fertilizer_calculator">Fertilizer Calculator</h3>
+                        <div class="form-group">
+                            <label for="selected-crop" data-translate="crop_selection">Crop Selection</label>
+                            <select id="selected-crop">
+                                <option value="" data-translate="select_crop">Select Crop</option>
+                                <option value="tomato" data-translate="tomato">Tomato</option>
+                                <option value="corn" data-translate="corn">Corn</option>
+                                <option value="wheat" data-translate="wheat">Wheat</option>
+                                <option value="rice" data-translate="rice">Rice</option>
+                                <option value="potato" data-translate="potato">Potato</option>
+                                <option value="lettuce" data-translate="lettuce">Lettuce</option>
+                                <option value="carrot" data-translate="carrot">Carrot</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="field-size" data-translate="field_size">Field Size (acres)</label>
+                            <input type="number" id="field-size" placeholder="1.0" step="0.1" min="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="soil-fertility" data-translate="soil_fertility">Soil Fertility Level</label>
+                            <select id="soil-fertility">
+                                <option value="" data-translate="select_level">Select Level</option>
+                                <option value="low" data-translate="low">Low</option>
+                                <option value="medium" data-translate="medium">Medium</option>
+                                <option value="high" data-translate="high">High</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="calculateFertilizer()" data-translate="calculate_fertilizer">Calculate Fertilizer Needs</button>
+                    </div>
+                    <div class="fertilizer-results" id="fertilizer-results">
+                        <h3 data-translate="fertilizer_recommendations">Fertilizer Recommendations</h3>
+                        <div class="results-content">
+                            <p class="placeholder" data-translate="enter_crop_details">Enter crop details to get fertilizer recommendations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Location Selection Modal -->
+        <div id="locationModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-map-marker-alt"></i> <span data-translate="modal_select_location">Select Location</span></h3>
+                    <button class="modal-close" onclick="hideLocationModal()" data-translate="modal_close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="location-search">
+                        <input type="text" id="locationSearch" placeholder="Enter city name (e.g., New York, London)" data-translate="enter_city_name" />
+                        <button class="btn btn-primary" onclick="searchLocation()" data-translate="search">Search</button>
+                    </div>
+                    <div class="location-hierarchy" style="margin-bottom: 1.5rem;">
+                        <h4 data-translate="india_hierarchical">India Hierarchical Selection</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="stateSelect" data-translate="state_ut">State/UT</label>
+                                <select id="stateSelect"></select>
+                            </div>
+                        </div>
+                        <div class="location-results" id="hierarchyResults" style="margin-top:0.75rem;"></div>
+                    </div>
+                        <div class="location-options">
+                        <h4 data-translate="quick_select">Quick Select (India):</h4>
+                        <div class="quick-locations">
+                            <button class="btn-location-option" onclick="selectQuickLocation('New Delhi, IN', 28.6139, 77.2090)">New Delhi</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Mumbai, IN', 19.0760, 72.8777)">Mumbai</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Bengaluru, IN', 12.9716, 77.5946)">Bengaluru</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Chennai, IN', 13.0827, 80.2707)">Chennai</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Kolkata, IN', 22.5726, 88.3639)">Kolkata</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Hyderabad, IN', 17.3850, 78.4867)">Hyderabad</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Pune, IN', 18.5204, 73.8567)">Pune</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Ahmedabad, IN', 23.0225, 72.5714)">Ahmedabad</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Jaipur, IN', 26.9124, 75.7873)">Jaipur</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Kochi, IN', 9.9312, 76.2673)">Kochi</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Lucknow, IN', 26.8467, 80.9462)">Lucknow</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Patna, IN', 25.5941, 85.1376)">Patna</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Bhopal, IN', 23.2599, 77.4126)">Bhopal</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Coimbatore, IN', 11.0168, 76.9558)">Coimbatore</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Visakhapatnam, IN', 17.6868, 83.2185)">Andhra Pradesh</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Madurai, IN', 9.9252, 78.1198)">Tamil Nadu</button>
+                            <button class="btn-location-option" onclick="selectQuickLocation('Thiruvananthapuram, IN', 8.5241, 76.9366)">Kerala</button>
+                        </div>
+                    </div>
+                    <div class="location-results" id="locationResults">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p data-translate="footer_copyright">&copy; 2024 AgriFarm - Smart Agriculture Solutions</p>
+                <p data-translate="footer_powered">Powered by AI and Weather Data</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom Translation System -->
+    <script src="translations.js"></script>
+    
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ AgriFarm PWA: Service Worker registered successfully');
+                        console.log('Scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('❌ AgriFarm PWA: Service Worker registration failed');
+                        console.error('Error:', error);
+                    });
+            });
+        }
+        
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('📱 AgriFarm PWA: Install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button (optional)
+            showInstallButton();
+        });
+        
+        // Handle PWA installation
+        function showInstallButton() {
+            // Create install button if it doesn't exist
+            if (!document.getElementById('pwa-install-btn')) {
+                const installBtn = document.createElement('button');
+                installBtn.id = 'pwa-install-btn';
+                installBtn.innerHTML = '📱 Install AgriFarm App';
+                installBtn.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+                    color: white;
+                    border: none;
+                    padding: 12px 20px;
+                    border-radius: 25px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    box-shadow: 0 4px 15px rgba(74, 124, 89, 0.3);
+                    z-index: 10000;
+                    transition: all 0.3s ease;
+                `;
+                
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log(`📱 AgriFarm PWA: Install prompt ${outcome}`);
+                        deferredPrompt = null;
+                        installBtn.remove();
+                    }
+                });
+                
+                installBtn.addEventListener('mouseenter', () => {
+                    installBtn.style.transform = 'translateY(-2px)';
+                    installBtn.style.boxShadow = '0 6px 20px rgba(74, 124, 89, 0.4)';
+                });
+                
+                installBtn.addEventListener('mouseleave', () => {
+                    installBtn.style.transform = 'translateY(0)';
+                    installBtn.style.boxShadow = '0 4px 15px rgba(74, 124, 89, 0.3)';
+                });
+                
+                document.body.appendChild(installBtn);
+            }
+        }
+        
+        // Handle PWA app installed
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('🎉 AgriFarm PWA: App installed successfully!');
+            // Hide install button
+            const installBtn = document.getElementById('pwa-install-btn');
+            if (installBtn) {
+                installBtn.remove();
+            }
+        });
+        
+        // PWA Update Available
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('🔄 AgriFarm PWA: New version available');
+                // Show update notification
+                showUpdateNotification();
+            });
+        }
+        
+        function showUpdateNotification() {
+            const updateBtn = document.createElement('button');
+            updateBtn.innerHTML = '🔄 Update Available - Tap to Refresh';
+            updateBtn.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+                z-index: 10001;
+                animation: slideDown 0.3s ease;
+            `;
+            
+            updateBtn.addEventListener('click', () => {
+                window.location.reload();
+            });
+            
+            document.body.appendChild(updateBtn);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (updateBtn.parentNode) {
+                    updateBtn.remove();
+                }
+            }, 5000);
+        }
+    </script>
+    
+    <style>
+        @keyframes slideDown {
+            from {
+                transform: translateX(-50%) translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</body>
+</html>
